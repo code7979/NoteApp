@@ -2,6 +2,8 @@ package com.code7979.noteapp.ui.screen
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -58,21 +60,29 @@ fun MainScreen(
             }
         }
 
-    ) {
-        CustomStaggeredVerticalGrid(
-            numColumns = 2,
-            modifier = Modifier.padding(8.dp)
+    ) { paddingValues ->
+        Column(
+            // in this column we are adding modifier to it
+            // and adding padding from all sides and vertical scroll.
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .padding(paddingValues)
         ) {
-            noteList.forEach { note ->
-                MyGridItem(
-                    title = note.title,
-                    content = note.content,
-                    date = note.last_modified.toStringDate(),
-                    onClick = {
-                        navController.navigate(route = Screen.EditScreen.passId(note.id))
+            CustomStaggeredVerticalGrid(
+                numColumns = 2,
+                modifier = Modifier.padding(8.dp)
+            ) {
+                noteList.forEach { note ->
+                    MyGridItem(
+                        title = note.title,
+                        content = note.content,
+                        date = note.last_modified.toStringDate(),
+                        onClick = {
+                            navController.navigate(route = Screen.EditScreen.passId(note.id))
+                        }
+                    ) {
+                        viewModel.deleteNote(note.id)
                     }
-                ) {
-                    viewModel.deleteNote(note.id)
                 }
             }
         }

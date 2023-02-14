@@ -31,11 +31,11 @@ fun CustomStaggeredVerticalGrid(
         val columnHeights = IntArray(numColumns) { 0 }
 
         // on below line we are creating and initializing placeable
-        val placeable = measurable.map { measurable ->
+        val placeable = measurable.map { m ->
             // inside placeable we are creating
             // variables as column and placeable.
             val column = testColumn(columnHeights)
-            val placeable = measurable.measure(itemConstraints)
+            val placeable = m.measure(itemConstraints)
 
             // on below line we are increasing our column height/
             columnHeights[column] += placeable.height
